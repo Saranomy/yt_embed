@@ -1,0 +1,1 @@
+This is an MIT-licensed open-source project that allows [YouTube In-App Player](https://github.com/Saranomy/YouTubePlayer) to show the actual embedded video player.
