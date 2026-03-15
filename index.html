@@ -11,19 +11,29 @@
   </style>
 </head>
 <body>
-  <div id="error">No video ID provided.</div>
+  <div id="error">No video ID or playlist ID provided.</div>
   <script>
     const params = new URLSearchParams(location.search);
     const v = params.get("v");
+    const list = params.get("list");
     const start = params.get("start") || "";
     const autoplay = params.get("autoplay") || "0";
 
-    if (!v) {
+    if (!v && !list) {
       document.getElementById("error").style.display = "block";
     } else {
-      const src = new URL(`https://www.youtube-nocookie.com/embed/${v}`);
+      let src;
+      if (list && !v) {
+        // Playlist-only: no specific video
+        src = new URL("https://www.youtube-nocookie.com/embed/videoseries");
+        src.searchParams.set("list", list);
+      } else {
+        // Single video (with optional playlist context)
+        src = new URL(`https://www.youtube-nocookie.com/embed/${v}`);
+        if (list) src.searchParams.set("list", list);
+        if (start) src.searchParams.set("start", start);
+      }
       src.searchParams.set("autoplay", autoplay);
-      if (start) src.searchParams.set("start", start);
 
       const iframe = document.createElement("iframe");
       iframe.src = src.toString();
