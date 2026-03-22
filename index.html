@@ -16,7 +16,7 @@
     const params = new URLSearchParams(location.search);
     const v = params.get("v");
     const list = params.get("list");
-    const start = params.get("start") || "";
+    const start = params.get("start") || params.get("t") || "";
     const autoplay = params.get("autoplay") || "0";
 
     if (!v && !list) {
